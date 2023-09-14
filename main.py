@@ -3,7 +3,10 @@ import json
 import os
 import sys
 import signal
+from io import BytesIO
+
 import pygame
+import requests
 from pygame import gfxdraw
 import math
 import time
@@ -113,6 +116,10 @@ class Display:
         img = font.render(text, True, color)
         self.screen.blit(img, (coords[0] - img.get_width() // 2, coords[1] - img.get_height() // 2))
 
+    def fetch_image(self, url):
+        res = requests.get(url)
+        return pygame.image.load(BytesIO(res.content))
+
     def run(self):
         self._running = True
         signal.signal(signal.SIGINT, self._exit)
@@ -126,18 +133,20 @@ class Display:
                         self._running = False
                         break
 
-            self.show_image(TEST_IMG, self.center, (64, 64))
-
             track = self.sp_client.current_user_playing_track()
 
             if track:
+                cover = track["item"]["album"]["images"][0]
+                self.show_image(self.fetch_image(cover["url"]), self.center, (cover["width"], cover["height"]))
+
                 self.show_text(track["item"]["name"], "Gotham.ttf", 32, (255, 255,255), self.center)
+
 
             if self._rawfb:
                 self._updatefb()
             else:
                 pygame.display.flip()
-            self._clock.tick(30)  # Aim for 30fps
+            self._clock.tick(1)  # Aim for 30fps
 
         pygame.quit()
         sys.exit(0)
