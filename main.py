@@ -170,7 +170,7 @@ class Display:
                 duration_ms = data["item"]["duration_ms"]
                 progress_ms = data["progress_ms"]
 
-                tick_offset = progress_ms % 1000
+                tick_offset = 1000 - (progress_ms % 1000)
 
                 duration = self.format_time(duration_ms / 1000)
                 progress = self.format_time(progress_ms / 1000)
