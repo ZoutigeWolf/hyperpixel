@@ -205,11 +205,11 @@ class Display:
 
                 self.screen.fill((150, 150, 150), p_bar_back)
 
-                p_factor = self.remap(progress_ms, 0, duration_ms, 0, 100)
+                p_factor = self.remap(progress_ms, 0, duration_ms, 0, 1)
 
                 p_bar_fill = pygame.rect.Rect(start_pos, (int(width * p_factor), height))
 
-                #self.screen.fill((255, 255, 255), p_bar_fill)
+                self.screen.fill((255, 255, 255), p_bar_fill)
 
             if self._rawfb:
                 self._updatefb()
