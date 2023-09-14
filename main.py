@@ -125,7 +125,7 @@ class Display:
         minutes = seconds // 60
         seconds %= 60
 
-        return (minutes, seconds)
+        return int(minutes), int(seconds)
 
     def get_pos(self, offset):
         return tuple(map(operator.add, self.center, offset))
