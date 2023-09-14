@@ -94,7 +94,9 @@ class Hyperpixel2r:
             fb.write(self.screen.convert(16, 0).get_buffer())
 
     def show_image(self, image, x, y):
-        self.screen.blit(image, (x - image.get_width(), y - image.get_height()))
+        print(image.get_width())
+        print(image.get_height())
+        self.screen.blit(image, (x - image.get_width() // 2, y - image.get_height() // 2))
 
     def run(self):
         self._running = True
