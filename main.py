@@ -9,18 +9,21 @@ import time
 import datetime
 from colorsys import hsv_to_rgb
 from hyperpixel2r import Touch
+import spotipy
+from spotipy.oauth2 import SpotifyOAuth
 
+from zouti_utils.json import load_json
 
-"""
-Run with: sudo SDL_FBDEV=/dev/fb0 python3 clock.py
-"""
+config = load_json("config.json")
 
 TEST_IMG = pygame.image.load("test.jpg")
 
 
-class Hyperpixel2r:
+class Display:
     screen = None
-    def __init__(self):
+
+    def __init__(self, sp_client: spotipy.Spotify):
+        self.sp_client = sp_client
         self._init_display()
 
         self.screen.fill((0, 0, 0))
@@ -97,6 +100,11 @@ class Hyperpixel2r:
         image = pygame.transform.scale(image, scale)
         self.screen.blit(image, (coords[0] - image.get_width() // 2, coords[1] - image.get_height() // 2))
 
+    def fetch_data(self):
+        data = self.sp_client.current_user_playing_track()
+        print(data)
+        return data
+
     def run(self):
         self._running = True
         signal.signal(signal.SIGINT, self._exit)
@@ -122,8 +130,21 @@ class Hyperpixel2r:
         sys.exit(0)
 
 
-display = Hyperpixel2r()
+scope = "user-read-playback-state"
+
+sp = spotipy.Spotify(
+    auth_manager=SpotifyOAuth(
+        scope=scope,
+        client_id=config["client_id"],
+        client_secret=config["client_secret"],
+        redirect_uri=config["redirect_uri"]
+    )
+)
+
+display = Display(sp)
 touch = Touch()
+
+
 
 
 @touch.on_touch
