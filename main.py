@@ -93,9 +93,8 @@ class Hyperpixel2r:
         with open(fbdev, 'wb') as fb:
             fb.write(self.screen.convert(16, 0).get_buffer())
 
-    def show_image(self, image, coords):
-        print(image.get_width())
-        print(image.get_height())
+    def show_image(self, image, coords, scale):
+        image = pygame.transform.scale(image, scale)
         self.screen.blit(image, (coords[0] - image.get_width() // 2, coords[1] - image.get_height() // 2))
 
     def run(self):
@@ -111,7 +110,7 @@ class Hyperpixel2r:
                         self._running = False
                         break
 
-            self.show_image(TEST_IMG, self.center)
+            self.show_image(TEST_IMG, self.center, (64, 64))
 
             if self._rawfb:
                 self._updatefb()
