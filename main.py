@@ -14,6 +14,8 @@ from hyperpixel2r import Touch
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 
+pygame.init()
+
 
 def load_json(filepath):
     with open(filepath) as f:
