@@ -1,18 +1,10 @@
-#!/usr/bin/env python3
-import json
 import operator
 import os
 import sys
 import signal
 from io import BytesIO
-
 import pygame
 import requests
-from pygame import gfxdraw
-import math
-import time
-import datetime
-from colorsys import hsv_to_rgb
 import json
 from hyperpixel2r import Touch
 import spotipy
@@ -146,6 +138,8 @@ class Display:
                         self._running = False
                         break
 
+            tick_offset = 0
+
             data = self.sp_client.current_user_playing_track()
 
             if data:
@@ -175,6 +169,8 @@ class Display:
 
                 duration_ms = data["item"]["duration_ms"]
                 progress_ms = data["progress_ms"]
+
+                tick_offset = progress_ms % 1000
 
                 duration = self.format_time(duration_ms / 1000)
                 progress = self.format_time(progress_ms / 1000)
@@ -215,7 +211,7 @@ class Display:
                 self._updatefb()
             else:
                 pygame.display.flip()
-            self._clock.tick(1)  # Aim for 30fps
+            self._clock.tick(1 + tick_offset)  # Aim for 30fps
 
         pygame.quit()
         sys.exit(0)
