@@ -15,6 +15,8 @@ from hyperpixel2r import Touch
 Run with: sudo SDL_FBDEV=/dev/fb0 python3 clock.py
 """
 
+TEST_IMG = pygame.image.load("test.jpg")
+
 
 class Hyperpixel2r:
     screen = None
@@ -104,8 +106,7 @@ class Hyperpixel2r:
                         self._running = False
                         break
 
-            # code
-            gfxdraw.circle(self.screen, self.center[0], self.center[1], 50, (255, 0, 255))
+            self.screen.blit(TEST_IMG, self.center)
 
             if self._rawfb:
                 self._updatefb()
