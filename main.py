@@ -31,6 +31,8 @@ class Hyperpixel2r:
         # circular screens are weird...
         self.center = (240, 247)
 
+        self._clock = pygame.time.Clock()
+
         self._running = False
 
     def _exit(self, sig, frame):
