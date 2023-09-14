@@ -125,6 +125,7 @@ class Display:
                         break
 
             self.show_image(TEST_IMG, self.center, (64, 64))
+            self.fetch_data()
 
             if self._rawfb:
                 self._updatefb()
