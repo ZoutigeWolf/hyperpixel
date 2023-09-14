@@ -93,10 +93,10 @@ class Hyperpixel2r:
         with open(fbdev, 'wb') as fb:
             fb.write(self.screen.convert(16, 0).get_buffer())
 
-    def show_image(self, image, x, y):
+    def show_image(self, image, coords):
         print(image.get_width())
         print(image.get_height())
-        self.screen.blit(image, (x - image.get_width() // 2, y - image.get_height() // 2))
+        self.screen.blit(image, (coords[0] - image.get_width() // 2, coords[1] - image.get_height() // 2))
 
     def run(self):
         self._running = True
@@ -111,7 +111,7 @@ class Hyperpixel2r:
                         self._running = False
                         break
 
-            self.screen.blit(TEST_IMG, self.center)
+            self.show_image(TEST_IMG, self.center)
 
             if self._rawfb:
                 self._updatefb()
