@@ -138,15 +138,16 @@ class Display:
 
 
 scope = "user-read-playback-state"
-
+auth = SpotifyOAuth(
+    scope=scope,
+    client_id=config["client_id"],
+    client_secret=config["client_secret"],
+    redirect_uri=config["redirect_uri"],
+    open_browser=False
+)
+print(auth.get_authorize_url())
 sp = spotipy.Spotify(
-    auth_manager=SpotifyOAuth(
-        scope=scope,
-        client_id=config["client_id"],
-        client_secret=config["client_secret"],
-        redirect_uri=config["redirect_uri"],
-        open_browser=False
-    )
+    auth_manager=auth
 )
 
 display = Display(sp)
