@@ -144,7 +144,8 @@ sp = spotipy.Spotify(
         scope=scope,
         client_id=config["client_id"],
         client_secret=config["client_secret"],
-        redirect_uri=config["redirect_uri"]
+        redirect_uri=config["redirect_uri"],
+        open_browser=False
     )
 )
 
