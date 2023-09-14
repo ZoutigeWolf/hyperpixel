@@ -195,8 +195,8 @@ class Display:
                     self.get_pos((100, 125))
                 )
 
-                start_pos = self.get_pos((-100, 100))
-                end_pos = self.get_pos((100, 100))
+                start_pos = self.get_pos((-150, 100))
+                end_pos = self.get_pos((150, 100))
 
                 width = abs(start_pos[0] - end_pos[0])
                 height = 10
@@ -209,7 +209,7 @@ class Display:
 
                 p_bar_fill = pygame.rect.Rect(start_pos, (int(width * p_factor), height))
 
-                self.screen.fill((255, 255, 255), p_bar_fill)
+                #self.screen.fill((255, 255, 255), p_bar_fill)
 
             if self._rawfb:
                 self._updatefb()
