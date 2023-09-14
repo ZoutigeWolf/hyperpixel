@@ -158,7 +158,7 @@ class Display:
                     artists,
                     "Gotham.ttf",
                     32, (255, 255, 255),
-                    tuple(map(operator.sub, self.center, (0, 50))))
+                    tuple(map(operator.sub, self.center, (0, -50))))
 
 
             if self._rawfb:
