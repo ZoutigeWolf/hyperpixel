@@ -176,7 +176,7 @@ class Display:
                     "Gotham.ttf",
                     32,
                     (255, 255, 255),
-                    self.get_pos((-100, 125))
+                    self.get_pos((-120, 125))
                 )
 
                 self.show_text(
@@ -184,7 +184,7 @@ class Display:
                     "Gotham.ttf",
                     32,
                     (255, 255, 255),
-                    self.get_pos((100, 125))
+                    self.get_pos((120, 125))
                 )
 
                 start_pos = self.get_pos((-150, 100))
@@ -213,7 +213,7 @@ class Display:
         sys.exit(0)
 
 
-scope = "user-read-playback-state"
+scope = "user-read-playback-state user-modify-playback-state"
 auth = SpotifyOAuth(
     scope=scope,
     client_id=config["client_id"],
