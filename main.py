@@ -130,6 +130,9 @@ class Display:
     def get_pos(self, offset):
         return tuple(map(operator.add, self.center, offset))
 
+    def remap(self, value, in_min, in_max, out_min, out_max):
+        return (((value - in_min) * (out_max - out_min)) / (in_max - in_min)) + out_min
+
     def run(self):
         self._running = True
         signal.signal(signal.SIGINT, self._exit)
@@ -170,8 +173,11 @@ class Display:
                     self.get_pos((0, 50))
                 )
 
-                duration = self.format_time(data["item"]["duration_ms"] / 1000)
-                progress = self.format_time(data["progress_ms"] / 1000)
+                duration_ms = data["item"]["duration_ms"]
+                progress_ms = data["progress_ms"]
+
+                duration = self.format_time(duration_ms / 1000)
+                progress = self.format_time(progress_ms / 1000)
 
                 self.show_text(
                     f"{progress[0]:02}:{progress[1]:02}",
@@ -188,6 +194,22 @@ class Display:
                     (255, 255, 255),
                     self.get_pos((100, 125))
                 )
+
+                start_pos = self.get_pos((-100, 100))
+                end_pos = self.get_pos((100, 100))
+
+                width = abs(start_pos[0] - end_pos[0])
+                height = 10
+
+                p_bar_back = pygame.rect.Rect(start_pos, (width, height))
+
+                gfxdraw.rectangle(self.screen, p_bar_back, (150, 150, 150))
+
+                p_factor = self.remap(progress_ms, 0, duration_ms, 0, 100)
+
+                p_bar_fill = pygame.rect.Rect(start_pos, (int(width * p_factor), height))
+
+                gfxdraw.rectangle(self.screen, p_bar_fill, (255, 255, 255))
 
             if self._rawfb:
                 self._updatefb()
