@@ -207,7 +207,7 @@ class Display:
                 self._updatefb()
             else:
                 pygame.display.flip()
-            self._clock.tick(1.5)
+            self._clock.tick(2)
 
         pygame.quit()
         sys.exit(0)
