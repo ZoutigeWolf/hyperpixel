@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import json
 import os
 import sys
 import signal
@@ -8,11 +9,16 @@ import math
 import time
 import datetime
 from colorsys import hsv_to_rgb
+import json
 from hyperpixel2r import Touch
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 
-from zouti_utils.json import load_json
+
+def load_json(filepath):
+    with open(filepath) as f:
+        return json.load(f)
+
 
 config = load_json("config.json")
 
