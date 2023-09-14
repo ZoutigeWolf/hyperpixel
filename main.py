@@ -138,8 +138,6 @@ class Display:
                         self._running = False
                         break
 
-            tick_offset = 0
-
             data = self.sp_client.current_user_playing_track()
 
             if data:
@@ -169,8 +167,6 @@ class Display:
 
                 duration_ms = data["item"]["duration_ms"]
                 progress_ms = data["progress_ms"]
-
-                tick_offset = 1000 - (progress_ms % 1000)
 
                 duration = self.format_time(duration_ms / 1000)
                 progress = self.format_time(progress_ms / 1000)
@@ -211,7 +207,7 @@ class Display:
                 self._updatefb()
             else:
                 pygame.display.flip()
-            self._clock.tick(1 + tick_offset)  # Aim for 30fps
+            self._clock.tick(0.75)
 
         pygame.quit()
         sys.exit(0)
