@@ -24,6 +24,8 @@ config = load_json("config.json")
 
 TEST_IMG = pygame.image.load("test.jpg")
 
+FONT = pygame.font.SysFont(None, 48)
+
 
 class Display:
     screen = None
@@ -106,11 +108,6 @@ class Display:
         image = pygame.transform.scale(image, scale)
         self.screen.blit(image, (coords[0] - image.get_width() // 2, coords[1] - image.get_height() // 2))
 
-    def fetch_data(self):
-        data = self.sp_client.current_user_playing_track()
-        print(data)
-        return data
-
     def run(self):
         self._running = True
         signal.signal(signal.SIGINT, self._exit)
@@ -125,7 +122,9 @@ class Display:
                         break
 
             self.show_image(TEST_IMG, self.center, (64, 64))
-            self.fetch_data()
+
+            track = self.sp_client.current_user_playing_track()
+            track
 
             if self._rawfb:
                 self._updatefb()
