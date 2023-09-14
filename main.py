@@ -121,6 +121,15 @@ class Display:
         res = requests.get(url)
         return pygame.image.load(BytesIO(res.content))
 
+    def format_time(self, seconds):
+        minutes = seconds // 60
+        seconds %= 60
+
+        return (minutes, seconds)
+
+    def get_pos(self, offset):
+        return tuple(map(operator.add, self.center, offset))
+
     def run(self):
         self._running = True
         signal.signal(signal.SIGINT, self._exit)
@@ -134,10 +143,10 @@ class Display:
                         self._running = False
                         break
 
-            track = self.sp_client.current_user_playing_track()
+            data = self.sp_client.current_user_playing_track()
 
-            if track:
-                cover = track["item"]["album"]["images"][0]
+            if data:
+                cover = data["item"]["album"]["images"][0]
                 self.show_image(
                     self.fetch_image(cover["url"]),
                     self.center,
@@ -145,21 +154,40 @@ class Display:
                 )
 
                 self.show_text(
-                    track["item"]["name"],
+                    data["item"]["name"],
                     "Gotham.ttf",
                     48,
                     (255, 255, 255),
                     self.center
                 )
 
-                artists = ", ".join([a["name"] for a in track["item"]["artists"]])
+                artists = ", ".join([a["name"] for a in data["item"]["artists"]])
 
                 self.show_text(
                     artists,
                     "Gotham.ttf",
                     32, (255, 255, 255),
-                    tuple(map(operator.sub, self.center, (0, -50))))
+                    self.get_pos((0, 50))
+                )
 
+                duration = self.format_time(data["item"]["duration_ms"] / 1000)
+                progress = self.format_time(data["progress_ms"] / 1000)
+
+                self.show_text(
+                    f"{progress[0]:02}:{progress[1]:02}",
+                    "Gotham.ttf",
+                    32,
+                    (255, 255, 255),
+                    self.get_pos((-100, 125))
+                )
+
+                self.show_text(
+                    f"{duration[0]:02}:{duration[1]:02}",
+                    "Gotham.ttf",
+                    32,
+                    (255, 255, 255),
+                    self.get_pos((100, 125))
+                )
 
             if self._rawfb:
                 self._updatefb()
