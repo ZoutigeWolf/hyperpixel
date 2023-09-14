@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import json
+import operator
 import os
 import sys
 import signal
@@ -137,9 +138,27 @@ class Display:
 
             if track:
                 cover = track["item"]["album"]["images"][0]
-                self.show_image(self.fetch_image(cover["url"]), self.center, (cover["width"], cover["height"]))
+                self.show_image(
+                    self.fetch_image(cover["url"]),
+                    self.center,
+                    (cover["width"], cover["height"])
+                )
 
-                self.show_text(track["item"]["name"], "Gotham.ttf", 32, (255, 255,255), self.center)
+                self.show_text(
+                    track["item"]["name"],
+                    "Gotham.ttf",
+                    48,
+                    (255, 255, 255),
+                    self.center
+                )
+
+                artists = ", ".join([a["name"] for a in track["item"]["artists"]])
+
+                self.show_text(
+                    artists,
+                    "Gotham.ttf",
+                    32, (255, 255, 255),
+                    tuple(map(operator.add, self.center, (0, -50))))
 
 
             if self._rawfb:
