@@ -104,13 +104,13 @@ class Display:
         image = pygame.transform.scale(image, scale)
         self.screen.blit(image, (coords[0] - image.get_width() // 2, coords[1] - image.get_height() // 2))
 
-    def show_text(self, text, font, size, color, coords):
+    def show_text(self, text, font, size, color, background_color, coords):
         font = pygame.font.SysFont(font, size)
         img = font.render(text, True, color)
         backdrop = pygame.Surface(img.get_size())
-        backdrop.fill((0, 0, 0))
-        backdrop.blit(text, (0, 0))
-        self.screen.blit(backdrop, (coords[0] - img.get_width() // 2, coords[1] - img.get_height() // 2))
+        backdrop.fill(background_color)
+        backdrop.blit(img, (0, 0))
+        self.screen.blit(backdrop, (coords[0] - backdrop.get_width() // 2, coords[1] - backdrop.get_height() // 2))
 
     def fetch_image(self, url):
         res = requests.get(url)
@@ -156,6 +156,7 @@ class Display:
                     "Gotham.ttf",
                     48,
                     (255, 255, 255),
+                    (0, 0, 0),
                     self.center
                 )
 
@@ -164,7 +165,9 @@ class Display:
                 self.show_text(
                     artists,
                     "Gotham.ttf",
-                    32, (255, 255, 255),
+                    32,
+                    (255, 255, 255),
+                    (0, 0, 0),
                     self.get_pos((0, 50))
                 )
 
@@ -179,6 +182,7 @@ class Display:
                     "Gotham.ttf",
                     32,
                     (255, 255, 255),
+                    (0, 0, 0),
                     self.get_pos((-120, 125))
                 )
 
@@ -187,6 +191,7 @@ class Display:
                     "Gotham.ttf",
                     32,
                     (255, 255, 255),
+                    (0, 0, 0),
                     self.get_pos((120, 125))
                 )
 
