@@ -109,7 +109,7 @@ class Display:
         img = font.render(text, True, color)
         backdrop = pygame.Surface((img.get_size()[0] + 8, img.get_size()[1] + 8))
         backdrop.fill(background_color)
-        backdrop.blit(img, (0, 0))
+        backdrop.blit(img, (-4, -4))
         self.screen.blit(backdrop, (coords[0] - backdrop.get_width() // 2, coords[1] - backdrop.get_height() // 2))
 
     def fetch_image(self, url):
