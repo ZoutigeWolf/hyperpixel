@@ -107,7 +107,7 @@ class Display:
     def show_text(self, text, font, size, color, coords):
         font = pygame.font.SysFont(font, size)
         img = font.render(text, True, color)
-        backdrop = pygame.Surface(text.get_size())
+        backdrop = pygame.Surface(img.get_size())
         backdrop.fill((0, 0, 0))
         backdrop.blit(text, (0, 0))
         self.screen.blit(backdrop, (coords[0] - img.get_width() // 2, coords[1] - img.get_height() // 2))
