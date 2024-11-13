@@ -222,6 +222,7 @@ class Display:
 
 
 scope = "user-read-playback-state user-modify-playback-state"
+print(config)
 auth = SpotifyOAuth(
     scope=scope,
     client_id=config["client_id"],
