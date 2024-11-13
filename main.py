@@ -222,7 +222,7 @@ class Display:
 
 
 scope = "user-read-playback-state user-modify-playback-state"
-print(config)
+
 auth = SpotifyOAuth(
     scope=scope,
     client_id=config["client_id"],
@@ -231,6 +231,7 @@ auth = SpotifyOAuth(
     open_browser=False
 )
 print(auth.get_authorize_url())
+input()
 sp = spotipy.Spotify(
     auth_manager=auth
 )
